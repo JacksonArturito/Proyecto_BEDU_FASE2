@@ -47,6 +47,7 @@ class Products (override val name:String, override val quantity:Int): ShopingCar
         when(name){
             "Playeras" -> {
                 val price = t_Shirts[description]
+                println(price)
             }
             "Sudaderas" ->{
                 val price = sweatshirts[description]
@@ -67,29 +68,33 @@ class Products (override val name:String, override val quantity:Int): ShopingCar
         return 23.4
     }
     fun menuCart(nameProduct:String){
-        try{
-            println("Escribe una opción del menu : ")
-            println("1) Agregar prodcuto al carrito")
-            println("2) Ver Carrito de COmpras")
-            println("3) Consultar Productos")
-            var number = Integer.valueOf(readLine())
+        do {
+            try {
+                println("Escribe una opción del menu : ")
+                println("1) Agregar prodcuto al carrito")
+                println("2) Ver Carrito de Compras")
+                println("3) Consultar Productos")
+                var number = Integer.valueOf(readLine())
 
-            when(number){
-                1 -> {
-                    println("Ingresa nombre del Producto")
-                    val name = readLine()!!.toString()
-                    println("Imgresa la cantidad")
-                    var quantity = Integer.valueOf(readLine())
-                    println("Catalogo de clientes $nameProduct")
-                   addCart(nameProduct,name,quantity)
+                when (number) {
+                    1 -> {
+                        println("Ingresa nombre del Producto")
+                        val name = readLine()!!.toString()
+                        println("Imgresa la cantidad")
+                        var quantity = Integer.valueOf(readLine())
+                        println("Catalogo de clientes $nameProduct")
+                        addCart(nameProduct, name, quantity)
+                    }
+                    2 -> println("Ver Carrito")
+                    3 -> println("Consultar Productos")
+                    else -> println("Opción no valida")
                 }
-                2 -> println("Ver Carrito")
-                3 -> println("Consultar Productos")
-                else -> println("Opción no valida")
+            } catch (e: NumberFormatException) {
+                println("Por favor, escribe una opción válida")
             }
-        } catch (e: NumberFormatException){
-            println("Por favor, escribe una opción válida")
-        }
+            println("¡Quiere seguir agregando productos al carrito? (S/N)")
+            val returnCarMenu = readLine().toString()
+        } while (returnCarMenu == "S")
 
     }
 
