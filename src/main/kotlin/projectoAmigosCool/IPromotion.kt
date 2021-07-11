@@ -1,0 +1,4 @@
+package projectoAmigosCool
+
+interface IPromotion {
+}
