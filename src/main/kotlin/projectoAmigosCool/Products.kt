@@ -1,9 +1,8 @@
 package projectoAmigosCool
 
-import kotlinx.coroutines.processNextEventInCurrentThread
-import java.util.ArrayList
+val list = arrayListOf<Cart>()
 
-class Products (override val name:String, override val quantity:Int): ShopingCart() {
+open class Products (override val name:String): ShopingCart() {
 
     val t_Shirts = mapOf(
         "Abrázame Classic" to 256.0,
@@ -38,40 +37,13 @@ class Products (override val name:String, override val quantity:Int): ShopingCar
         "YO NUNCA NUNCA" to 179.0,
         "Agua de Calzón" to 179.0,
         "NO INVENTES El Juego" to 179.0)
-
-    override fun quotePrice(total: Double) {
-        TODO("Not yet implemented")
-    }
-
-    override fun addCart(name: String,description:String,quantity: Int):Double {
-        when(name){
-            "Playeras" -> {
-                val price = t_Shirts[description]
-            }
-            "Sudaderas" ->{
-                val price = sweatshirts[description]
-                println(price)
-            }
-            "Stickers" ->{
-                val price = stickers[description]
-                println(price)
-            }
-            "Juegos"->{
-                val price = coolsGames[description]
-                println(price)
-            }
-
-            else -> println("Producto no encontrado en el inventario")
-        }
-
-        return 23.4
-    }
     fun menuCart(nameProduct:String){
         try{
             println("Escribe una opción del menu : ")
-            println("1) Agregar prodcuto al carrito")
-            println("2) Ver Carrito de COmpras")
+            println("1) Agregar producto al carrito")
+            println("2) Realizar pago")
             println("3) Consultar Productos")
+            println("4) Cancelar Pago")
             var number = Integer.valueOf(readLine())
 
             when(number){
@@ -81,10 +53,25 @@ class Products (override val name:String, override val quantity:Int): ShopingCar
                     println("Imgresa la cantidad")
                     var quantity = Integer.valueOf(readLine())
                     println("Catalogo de clientes $nameProduct")
-                   addCart(nameProduct,name,quantity)
+                    addCart(nameProduct,name,quantity)
                 }
-                2 -> println("Ver Carrito")
-                3 -> println("Consultar Productos")
+                2 -> {
+                    quotePrice()
+                }
+                3 -> {
+                    val products = Products("Playeras")
+                    println("Ingresa nombre del cataogo del Producto")
+                    println(" ----------- Playeras -----------------")
+                    println(" ----------- Sudaderas -----------------")
+                    println(" ----------- Stickers -----------------")
+                    println(" ----------- Juegos -----------------")
+                    val name = readLine()!!.toString()
+                    products.getInventary(name)
+                }
+                4 -> {
+                    val pagoCancelado = PaymentStatus(name)
+                    pagoCancelado.cancelPayment();
+                }
                 else -> println("Opción no valida")
             }
         } catch (e: NumberFormatException){
@@ -93,6 +80,44 @@ class Products (override val name:String, override val quantity:Int): ShopingCar
 
     }
 
+    override fun addCart(name: String,description:String,quantity: Int) {
+        when(name){
+            "Playeras" -> {
+                val price = t_Shirts[description]!!.toLong()
+                list.add(Cart(description,price,quantity,(price*quantity)))
+                menuCart(name)
+            }
+            "Sudaderas" ->{
+                val price = sweatshirts[description]!!.toLong()
+                list.add(Cart(description,price,quantity,(price*quantity)))
+                menuCart(name)
+            }
+            "Stickers" ->{
+                val price = stickers[description]!!.toLong()
+                list.add(Cart(description,price,quantity,(price*quantity)))
+                menuCart(name)
+            }
+            "Juegos"->{
+                val price = coolsGames[description]!!.toLong()
+                list.add(Cart(description,price,quantity,(price*quantity)))
+                menuCart(name)
+            }
+
+            else -> println("Producto no encontrado en el inventario")
+        }
+    }
+    override fun quotePrice(){
+       if (list.isEmpty()){
+           println("El carrito de compras esta vacio :(")
+       }else{
+           for (producto in list){
+               val detailBuy = """ Nombre                 Cantidad                          Precio
+ ${producto.name}             ${producto.quantity}                          ${producto.price}  
+                                                          Total : ${producto.priceTotal}"""
+               println(detailBuy)
+           }
+       }
+    }
 
     fun getInventary(name: String){
         when(name){
@@ -134,3 +159,5 @@ class Products (override val name:String, override val quantity:Int): ShopingCar
 
 
 }
+
+

@@ -20,7 +20,7 @@ fun main() {
             1 -> println("Iniciar Sesión")
             2 -> loginUser.registerUser()
             3 -> {
-                val products = Products("Playeras",23)
+                val products = Products("Playeras")
                 println("Ingresa nombre del cataogo del Producto")
                 println(" ----------- Playeras -----------------")
                 println(" ----------- Sudaderas -----------------")
