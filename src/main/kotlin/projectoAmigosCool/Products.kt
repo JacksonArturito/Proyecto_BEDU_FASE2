@@ -3,10 +3,8 @@ package projectoAmigosCool
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-
-val list = arrayListOf<Cart>()
-
 open class Products (override val name:String): ShopingCart() {
+    val list = arrayListOf<Cart>()
     var stock = 20
 
     val t_Shirts = mapOf(
@@ -67,7 +65,7 @@ open class Products (override val name:String): ShopingCart() {
                     addCart(nameProduct,name,quantity)
                 }
                 2 -> {
-                    println(quotePrice())
+                    totalPrice()
                 }
                 3 -> {
                     val products = Products("Playeras")
@@ -121,25 +119,30 @@ open class Products (override val name:String): ShopingCart() {
     override fun totalPrice() {       ////////Función total de Pago
         val totalPrice = quotePrice()
         if (totalPrice == 0.0){
-        }else{
-            if (totalPrice >= 999){        //Valida si el Pago total es mayor ó igual 900
-                println("ENVIO GRATIS en todas las compras mayores a $999")  //Si es mayor ó igual a 900 el costo de envio es gratis
-                println("Total de compra:  $totalPrice")
-            }else{
-                println("Total de compra más costo de envio de $150 es : ${totalPrice+150}") //Si es menor a 900 se cobra el costo de envio a $150.MXN
-            }
-        }
-    }
-
-    override fun quotePrice(): Double {   //Función que muestra los productos en el carrito
-        if (list.isEmpty()){      //// Realiza una validacion si el carrito esta vacio
             println("El carrito de compras esta vacio :(")
+            menuCart(name)
         }else{
             for (producto in list){
                 val detailBuy = """ Nombre                 Cantidad                          Precio
  ${producto.name}             ${producto.quantity}                          ${producto.price}  
                                                           Subtotal : ${producto.priceTotal}"""
                 println(detailBuy)
+            }
+            if (totalPrice >= 999){        //Valida si el Pago total es mayor ó igual 900
+                println("ENVIO GRATIS en todas las compras mayores a $999")  //Si es mayor ó igual a 900 el costo de envio es gratis
+                println("Total de compra:  $totalPrice")
+            }else{
+                println("Total de compra más costo de envio de $150 es : ${totalPrice+150}") //Si es menor a 900 se cobra el costo de envio a $150.MXN
+                menuCart(name)
+            }
+        }
+    }
+
+    override fun quotePrice(): Double {   //Función que muestra los productos en el carrito
+        if (list.isEmpty()){      //// Realiza una validacion si el carrito esta vacio
+           return 0.0
+        }else{
+            for (producto in list){
                 return producto.priceTotal.toDouble()  ///Regresa el Precio Total del Carrito si este contiene productos
             }
         }
