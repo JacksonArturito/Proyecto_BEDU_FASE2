@@ -7,6 +7,7 @@ import kotlinx.coroutines.launch
 val list = arrayListOf<Cart>()
 
 open class Products (override val name:String): ShopingCart() {
+    var stock = 20
 
     val t_Shirts = mapOf(
         "Abrázame Classic" to 256.0,
@@ -55,7 +56,6 @@ open class Products (override val name:String): ShopingCart() {
             println("2) Ver Carrito de Compras")
             println("3) Consultar Productos")
             println("4) Realizar Pago")
-            println("5) Cancelar Pago")
             var number = Integer.valueOf(readLine())
 
             when(number){
@@ -64,7 +64,6 @@ open class Products (override val name:String): ShopingCart() {
                     val name = readLine()!!.toString()
                     println("Imgresa la cantidad")
                     var quantity = Integer.valueOf(readLine())
-                    println("Catalogo de clientes $nameProduct")
                     addCart(nameProduct,name,quantity)
                 }
                 2 -> {
@@ -81,11 +80,8 @@ open class Products (override val name:String): ShopingCart() {
                     products.getInventary(name)
                 }
                 4 -> {
-                    totalPrice()
-                }
-                5 -> {
-                    val pagoCancelado = PaymentStatus(name)
-                    pagoCancelado.cancelPayment();
+                    val statusPago = PaymentStatus(name)
+                    statusPago.statusPayment()
                 }
                 else -> println("Opción no valida")
             }
@@ -126,11 +122,11 @@ open class Products (override val name:String): ShopingCart() {
         val totalPrice = quotePrice()
         if (totalPrice == 0.0){
         }else{
-            if (totalPrice >= 900){        //Valida si el Pago total es mayor ó igual 900
+            if (totalPrice >= 999){        //Valida si el Pago total es mayor ó igual 900
                 println("ENVIO GRATIS en todas las compras mayores a $999")  //Si es mayor ó igual a 900 el costo de envio es gratis
                 println("Total de compra:  $totalPrice")
             }else{
-                println("Total de compra más costo de envio es : ${totalPrice+150}") //Si es menor a 900 se cobra el costo de envio a $150.MXN
+                println("Total de compra más costo de envio de $150 es : ${totalPrice+150}") //Si es menor a 900 se cobra el costo de envio a $150.MXN
             }
         }
     }

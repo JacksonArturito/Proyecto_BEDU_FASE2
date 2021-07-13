@@ -3,6 +3,7 @@ package projectoAmigosCool
 abstract class ShopingCart {
     abstract val name: String
 
+    protected var reserved = false
     protected var paid = false
     protected var paidAmount = 0.0
 

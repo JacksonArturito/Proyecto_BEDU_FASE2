@@ -24,6 +24,7 @@ fun main() {
 
         when(number){
             1 -> loginUser.login()
+
             2 -> loginUser.registerUser()
             3 -> {
                 val products = Products("Playeras")
