@@ -1,5 +1,9 @@
 package projectoAmigosCool
 
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
 val list = arrayListOf<Cart>()
 
 open class Products (override val name:String): ShopingCart() {
@@ -37,13 +41,21 @@ open class Products (override val name:String): ShopingCart() {
         "YO NUNCA NUNCA" to 179.0,
         "Agua de Calzón" to 179.0,
         "NO INVENTES El Juego" to 179.0)
-    fun menuCart(nameProduct:String){
+
+    fun menuCart(nameProduct:String){    /////Menu del Carrito principal
         try{
+            println("Cargando menú Carrito....................")
+            GlobalScope.launch {
+                delay(1000)
+            }
+            Thread.sleep(5000)
+            println("*****************************************************")
             println("Escribe una opción del menu : ")
             println("1) Agregar producto al carrito")
-            println("2) Realizar pago")
+            println("2) Ver Carrito de Compras")
             println("3) Consultar Productos")
-            println("4) Cancelar Pago")
+            println("4) Realizar Pago")
+            println("5) Cancelar Pago")
             var number = Integer.valueOf(readLine())
 
             when(number){
@@ -56,11 +68,11 @@ open class Products (override val name:String): ShopingCart() {
                     addCart(nameProduct,name,quantity)
                 }
                 2 -> {
-                    quotePrice()
+                    println(quotePrice())
                 }
                 3 -> {
                     val products = Products("Playeras")
-                    println("Ingresa nombre del cataogo del Producto")
+                    println("Ingresa nombre del catalogo del Producto")
                     println(" ----------- Playeras -----------------")
                     println(" ----------- Sudaderas -----------------")
                     println(" ----------- Stickers -----------------")
@@ -69,6 +81,9 @@ open class Products (override val name:String): ShopingCart() {
                     products.getInventary(name)
                 }
                 4 -> {
+                    totalPrice()
+                }
+                5 -> {
                     val pagoCancelado = PaymentStatus(name)
                     pagoCancelado.cancelPayment();
                 }
@@ -80,7 +95,7 @@ open class Products (override val name:String): ShopingCart() {
 
     }
 
-    override fun addCart(name: String,description:String,quantity: Int) {
+    override fun addCart(name: String,description:String,quantity: Int) {   ///Función para agregar productos al mercado
         when(name){
             "Playeras" -> {
                 val price = t_Shirts[description]!!.toLong()
@@ -106,20 +121,36 @@ open class Products (override val name:String): ShopingCart() {
             else -> println("Producto no encontrado en el inventario")
         }
     }
-    override fun quotePrice(){
-       if (list.isEmpty()){
-           println("El carrito de compras esta vacio :(")
-       }else{
-           for (producto in list){
-               val detailBuy = """ Nombre                 Cantidad                          Precio
- ${producto.name}             ${producto.quantity}                          ${producto.price}  
-                                                          Total : ${producto.priceTotal}"""
-               println(detailBuy)
-           }
-       }
+
+    override fun totalPrice() {       ////////Función total de Pago
+        val totalPrice = quotePrice()
+        if (totalPrice == 0.0){
+        }else{
+            if (totalPrice >= 900){        //Valida si el Pago total es mayor ó igual 900
+                println("ENVIO GRATIS en todas las compras mayores a $999")  //Si es mayor ó igual a 900 el costo de envio es gratis
+                println("Total de compra:  $totalPrice")
+            }else{
+                println("Total de compra más costo de envio es : ${totalPrice+150}") //Si es menor a 900 se cobra el costo de envio a $150.MXN
+            }
+        }
     }
 
-    fun getInventary(name: String){
+    override fun quotePrice(): Double {   //Función que muestra los productos en el carrito
+        if (list.isEmpty()){      //// Realiza una validacion si el carrito esta vacio
+            println("El carrito de compras esta vacio :(")
+        }else{
+            for (producto in list){
+                val detailBuy = """ Nombre                 Cantidad                          Precio
+ ${producto.name}             ${producto.quantity}                          ${producto.price}  
+                                                          Subtotal : ${producto.priceTotal}"""
+                println(detailBuy)
+                return producto.priceTotal.toDouble()  ///Regresa el Precio Total del Carrito si este contiene productos
+            }
+        }
+        return 0.0 ///Regresa 0.0 si el carrito esta vacio
+    }
+
+    fun getInventary(name: String){    //Función para mostrar los productos de la tienda
         when(name){
             "Playeras" ->{
                 println("---------------Playeras Amigos Cool-------------------")

@@ -1,7 +1,6 @@
 package projectoAmigosCool
 
 class LoginUser {
-
     val users = arrayListOf(User("jazmin.icss@gmail.com", "123456"))
 
     fun registerUser(){       //Función para registrar usuario
@@ -9,7 +8,7 @@ class LoginUser {
         val email = readLine()!!.toString()
         println("Ingresa Contraseña")
         val password = readLine()!!.toString()
-        val exitsEmail = users.find { it.email == email }
+        val exitsEmail = users.find { it.email == email } ///Busca si se encuentra el correo electrónico en el sistema
         if (exitsEmail == null){       //Si no existe el correo electrónico proporcionado por el usuario se crea el usuario y notificamos al usuario
             users.add(User(email,password))
             println("Registro realizado con exito !")
@@ -19,7 +18,17 @@ class LoginUser {
         }
     }
 
-    fun loginUser(){
-
+    fun login(): Boolean{
+        println("Ingresa correo electrónico")
+        val email = readLine()!!.toString()
+        println("Ingresa contraseña")
+        val password = readLine()!!.toString()
+        if(email=="jazmin.icss@gmail.com" && password=="123456"){ //// Realiza una validación si coinciden el correo electrónico y la contrseña
+            println("Inicio de sesión exitoso")
+            return true
+        } else{
+            println("email o contraseña incorrecto")
+            return false
+        }
     }
 }

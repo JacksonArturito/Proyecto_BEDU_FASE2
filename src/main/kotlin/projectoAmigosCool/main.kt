@@ -1,15 +1,21 @@
 package projectoAmigosCool
 
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
 
 fun main() {
-
     val loginUser = LoginUser()
-
-
     println("!Hola Bienvenido a la Tienda de Amigos Cool")
+    println("Cargando menú principal....................")
+    GlobalScope.launch {
+        delay(1000)
+    }
+    Thread.sleep(3000)
 
     try{
-        println("Escribe una opción del menu : ")
+        println("Escribe una opción del menu : ")  ///Menu principal de la aplicación
         println("1) Iniciar sesion")
         println("2) Registrarse")
         println("3) Consultar Productos")
@@ -17,7 +23,7 @@ fun main() {
         var number = Integer.valueOf(readLine())
 
         when(number){
-            1 -> println("Iniciar Sesión")
+            1 -> loginUser.login()
             2 -> loginUser.registerUser()
             3 -> {
                 val products = Products("Playeras")
