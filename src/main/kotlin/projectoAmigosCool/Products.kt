@@ -52,8 +52,9 @@ open class Products (override val name:String): ShopingCart() {
             println("Escribe una opción del menu : ")
             println("1) Agregar producto al carrito")
             println("2) Ver Carrito de Compras")
-            println("3) Consultar Productos")
+            println("3) Ver Catalogo")
             println("4) Realizar Pago")
+            println("5) Regresar al menú principal")
             var number = Integer.valueOf(readLine())
 
             when(number){
@@ -81,6 +82,7 @@ open class Products (override val name:String): ShopingCart() {
                     val statusPago = PaymentStatus(name)
                     statusPago.statusPayment()
                 }
+                5 -> main()
                 else -> println("Opción no valida")
             }
         } catch (e: NumberFormatException){
@@ -131,6 +133,7 @@ open class Products (override val name:String): ShopingCart() {
             if (totalPrice >= 999){        //Valida si el Pago total es mayor ó igual 900
                 println("ENVIO GRATIS en todas las compras mayores a $999")  //Si es mayor ó igual a 900 el costo de envio es gratis
                 println("Total de compra:  $totalPrice")
+                menuCart(name)
             }else{
                 println("Total de compra más costo de envio de $150 es : ${totalPrice+150}") //Si es menor a 900 se cobra el costo de envio a $150.MXN
                 menuCart(name)

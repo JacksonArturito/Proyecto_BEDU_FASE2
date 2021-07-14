@@ -18,7 +18,7 @@ fun main() {
         println("Escribe una opción del menu : ")  ///Menu principal de la aplicación
         println("1) Iniciar sesion")
         println("2) Registrarse")
-        println("3) Consultar Productos")
+        println("3) Ver Catalogo")
 
         var number = Integer.valueOf(readLine())
 

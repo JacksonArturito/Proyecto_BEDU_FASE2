@@ -18,6 +18,14 @@ class PaymentStatus (name: String) : Products(name),StatusPayment{
             reserved=false
             paidAmount=0.0
             println("Pago cancelado exitosamente!")
+            println("Desea regresar al menú principal Si ó No")
+            val optCMenu = readLine()!!.toString()
+
+        if(optCMenu.equals("Si")){
+            main()
+        }else{
+           println("Gracias por su visita (˘︹˘)")
+        }
     }
 
 }
