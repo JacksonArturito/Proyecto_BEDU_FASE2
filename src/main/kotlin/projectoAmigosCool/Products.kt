@@ -5,8 +5,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 open class Products (override val name:String): ShopingCart() {
     val list = arrayListOf<Cart>()
-    var stock = 20
-
+    var endTotal : Double = 0.0
     val t_Shirts = mapOf(
         "Abrázame Classic" to 256.0,
         "Las Quesadillas Llevan Queso" to 256.0,
@@ -133,9 +132,11 @@ open class Products (override val name:String): ShopingCart() {
             if (totalPrice >= 999){        //Valida si el Pago total es mayor ó igual 900
                 println("ENVIO GRATIS en todas las compras mayores a $999")  //Si es mayor ó igual a 900 el costo de envio es gratis
                 println("Total de compra:  $totalPrice")
+                endTotal = totalPrice
                 menuCart(name)
             }else{
                 println("Total de compra más costo de envio de $150 es : ${totalPrice+150}") //Si es menor a 900 se cobra el costo de envio a $150.MXN
+                endTotal =totalPrice
                 menuCart(name)
             }
         }
