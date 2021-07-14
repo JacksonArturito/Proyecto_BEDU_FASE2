@@ -18,17 +18,21 @@ class LoginUser {
         }
     }
 
-    fun login(): Boolean{
+    fun login(estado: Boolean): Boolean{
+        var sesion = estado
         println("Ingresa correo electrónico")
         val email = readLine()!!.toString()
         println("Ingresa contraseña")
         val password = readLine()!!.toString()
-        if(email=="jazmin.icss@gmail.com" && password=="123456"){ //// Realiza una validación si coinciden el correo electrónico y la contrseña
+        println("Validando usuario...")
+
+        if(email=="jazmin.icss@gmail.com" && password=="123456"){ // Realiza una validación si coinciden el correo electrónico y la contrseña
             println("Inicio de sesión exitoso")
-            return true
+            sesion = true
         } else{
             println("email o contraseña incorrecto")
-            return false
+            sesion = false
         }
+        return sesion
     }
 }
